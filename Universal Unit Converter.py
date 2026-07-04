@@ -2,7 +2,7 @@
 import converter_engine
 import sys
 from PyQt6 import QtWidgets
-from PyQt6.QtWidgets import QApplication,QWidget,QPushButton, QComboBox, QLineEdit
+from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QComboBox, QLineEdit, QVBoxLayout, QHBoxLayout
 from PyQt6.QtGui import QFont, QIcon
 from PyQt6.QtCore import Qt
 
@@ -32,6 +32,7 @@ for x in DistanceUnits:
     InputSL = (StrSL + str(IntSL))
     InputTL = (StrTL + str(IntTL))
 
+
 #Code to launch Main Window
 app = QApplication(sys.argv)
 MainWindow = QWidget()
@@ -43,37 +44,14 @@ MainWindow.setStyleSheet("background-color: Black")
 
 #Code for Label
 TOMLabel = QtWidgets.QLabel(MainWindow)
+TOMLabel.setFont(QFont("Calibri", 15))
 TOMLabel.setText("Unit Converter")
 TOMLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
 TOMLabel.setFixedWidth(310)
 TOMLabel.setFixedHeight(40)
 TOMLabel.move(-5,10)
 TOMLabel.setWordWrap(True)
-TOMLabel.setStyleSheet(f"background-color: {Navy}; border-color: Black; border-style: outset; border-width: 1px")
-
-#Code for Box1 (Big White One)
-Box1 = QtWidgets.QLabel(MainWindow)
-Box1.setGeometry(285, 285, 275, 285)
-Box1.move(10,60)
-Box1.setStyleSheet("background-color: White; border-color: #b0b0b5; border-style: outset; border-width: 2px; border-radius: 7.5px")
-
-#Code for Box2 (Bottom One)
-Box2 = QtWidgets.QLabel(MainWindow)
-Box2.setGeometry(100, 100, 262, 100)
-Box2.move(15,235)
-Box2.setStyleSheet(f"background-color: {Navy}; border-radius: 7.5px")
-
-#Code for Box3 (Middle One)
-Box3 = QtWidgets.QLabel(MainWindow)
-Box3.setGeometry(100, 100, 262, 100)
-Box3.move(15,130)
-Box3.setStyleSheet(f"background-color: {Navy}; border-radius: 7.5px")
-
-#Code for Box3 (Top One)
-Box3 = QtWidgets.QLabel(MainWindow)
-Box3.setGeometry(100, 100, 262, 60)
-Box3.move(15,65)
-Box3.setStyleSheet(f"background-color: {Navy}; border-radius: 7.5px")
+TOMLabel.setStyleSheet(f"background-color: {Navy}; color: white; border-color: Black; border-radius: 5px;border-style: outset; border-width: 1px")
 
 #Code for Entity Drop Down List
 EntityDropDownList = QComboBox(MainWindow)
@@ -81,7 +59,7 @@ EntityDropDownList.addItems(EntityUnits)
 EntityDropDownList.setAccessibleName("Entity Units")
 EntityDropDownList.setFont(QFont("Calibri", 15))
 EntityDropDownList.setStyleSheet(f"background-color: {LightBlue}; color: black; border-radius: 5px; border-style: Outset;border-color: Black; border-width: 1.4")
-EntityDropDownList.setGeometry(40,40,140,40)
+EntityDropDownList.setFixedSize(145, 45)
 EntityDropDownList.move(20,75)
 
 #Code for Convert Button
@@ -89,35 +67,35 @@ ConvertButton = QPushButton(MainWindow)
 ConvertButton.setFont(QFont("Calibri", 15))
 ConvertButton.setStyleSheet("background-color: LightGreen; border-color: Black; border-style: outset; border-width: 1.4px; border-radius: 7.5px; padding: 4px")
 ConvertButton.setText("Convert")
-ConvertButton.setGeometry(40,40,100,40)
+ConvertButton.setFixedSize(100, 45)
 ConvertButton.move(170,75)
 
 #Code for Unit1 Drop Down List
 Unit1DropDownList = QComboBox(MainWindow)
 Unit1DropDownList.setFont(QFont("Calibri", 15))
 Unit1DropDownList.setStyleSheet(f"background-color: {LightBlue}; color: black; border-radius: 5px; border-style: Outset;border-color: Black; border-width: 1.4")
-Unit1DropDownList.setGeometry(40,40,215,40)
+Unit1DropDownList.setFixedSize(230, 45)
 Unit1DropDownList.move(20,140)
 
 #Code for Unit2 Drop Down List
 Unit2DropDownList = QComboBox(MainWindow)
 Unit2DropDownList.setFont(QFont("Calibri", 15))
 Unit2DropDownList.setStyleSheet(f"background-color: {LightBlue}; color: black; border-radius: 5px; border-style: Outset;border-color: Black; border-width: 1.4")
-Unit2DropDownList.setGeometry(40,40,215,40)
+Unit2DropDownList.setFixedSize(230, 45)
 Unit2DropDownList.move(20,185)
 
 # Code for Swap button
 SwapButton = QPushButton(MainWindow)
 SwapButton.setIcon(QIcon("C:/Advait/Code/Python/Python Icons/swap-vertical.svg"))
-SwapButton.setStyleSheet("background-color: white; border-radius: 15px;")
-SwapButton.setGeometry(240, 166, 30, 30)
+SwapButton.setStyleSheet("background-color: white; border-radius: 17px;")
+SwapButton.setFixedSize(35, 35)
 SwapButton.setIconSize(SwapButton.size() * 0.7)
 
 #Code for Input Text Boxes
 InputTextBox = QLineEdit(MainWindow)
 InputTextBox.setFont(QFont("Calibri", 12))
 InputTextBox.setStyleSheet("background-color: white; color: black; border-radius: 5px; border-style: Outset; border-color: Black; border-width: 1px")
-InputTextBox.setGeometry(40, 30, 240, 30)
+InputTextBox.setFixedSize(278, 45)
 InputTextBox.move(25, 245)
 InputTextBox.setPlaceholderText("Enter value here...")
 
@@ -125,9 +103,78 @@ InputTextBox.setPlaceholderText("Enter value here...")
 OutputTextBox = QLineEdit(MainWindow)
 OutputTextBox.setFont(QFont("Calibri", 12))
 OutputTextBox.setStyleSheet("background-color: #e8e8e8; color: black; border-radius: 5px; border-style: Outset; border-color: Black; border-width: 1px")
-OutputTextBox.setGeometry(40, 30, 240, 30)
+OutputTextBox.setFixedSize(278, 45)
 OutputTextBox.move(25, 290)
 OutputTextBox.setReadOnly(True)
+
+# ==========================================
+# RESPONSIVE LAYOUT SYSTEM (FIXED TO MATCH ORIGINAL)
+# ==========================================
+
+# 1. Create the structural containers
+main_layout = QVBoxLayout()
+main_layout.setContentsMargins(15, 15, 15, 15)
+
+# The big white card container
+white_card = QWidget()
+white_card.setStyleSheet("background-color: white; border: 2px solid #b0b0b5; border-radius: 7.5px;")
+card_layout = QVBoxLayout(white_card)
+card_layout.setContentsMargins(6, 6, 6, 6)
+card_layout.setSpacing(5)
+
+# TOP PANEL (Category & Convert Button)
+top_container = QWidget()
+top_container.setStyleSheet(f"background-color: {Navy}; border-radius: 7.5px;")
+top_layout = QHBoxLayout(top_container)
+top_layout.setContentsMargins(10, 10, 10, 10)
+
+# MIDDLE PANEL (The Dropdowns + Swap Button side-by-side)
+middle_container = QWidget()
+middle_container.setStyleSheet(f"background-color: {Navy}; border-radius: 7.5px;")
+middle_container_layout = QHBoxLayout(middle_container)
+middle_container_layout.setContentsMargins(10, 10, 10, 10)
+
+# Inside the middle panel, we need a vertical column for the two dropdowns
+dropdown_column_layout = QVBoxLayout()
+dropdown_column_layout.setSpacing(10)
+
+# BOTTOM PANEL (The Input & Output text boxes)
+bottom_container = QWidget()
+bottom_container.setStyleSheet(f"background-color: {Navy}; border-radius: 7.5px;")
+bottom_layout = QVBoxLayout(bottom_container)
+bottom_layout.setContentsMargins(10, 10, 10, 10)
+bottom_layout.setSpacing(10)
+
+
+# 2. Arrange your components into the layouts
+
+# Top Row Setup
+top_layout.addWidget(EntityDropDownList)
+top_layout.addWidget(ConvertButton)
+card_layout.addWidget(top_container, 1)
+
+# Middle Row Setup (Dropdowns stacked vertically, Swap button on the right)
+dropdown_column_layout.addWidget(Unit1DropDownList)
+dropdown_column_layout.addWidget(Unit2DropDownList)
+
+middle_container_layout.addLayout(dropdown_column_layout)
+middle_container_layout.addWidget(SwapButton, alignment=Qt.AlignmentFlag.AlignCenter)
+card_layout.addWidget(middle_container, 2)
+
+# Bottom Row Setup (Text fields stacked vertically)
+bottom_layout.addWidget(InputTextBox)
+bottom_layout.addWidget(OutputTextBox)
+card_layout.addWidget(bottom_container, 2)
+
+
+# 3. Mount everything to the main window
+main_layout.addWidget(TOMLabel)
+main_layout.addWidget(white_card)
+MainWindow.setLayout(main_layout)
+
+# Set the window size rules to look like your original screenshot
+MainWindow.resize(380, 480)
+MainWindow.setMinimumSize(340, 440)
 
 def DropDownListChanging(text):
     #Clear previous units so they don't stack up
