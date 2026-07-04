@@ -3,7 +3,7 @@ import converter_engine
 import sys
 from PyQt6 import QtWidgets
 from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QComboBox, QLineEdit, QVBoxLayout, QHBoxLayout
-from PyQt6.QtGui import QFont, QIcon
+from PyQt6.QtGui import QFont, QDoubleValidator, QIcon
 from PyQt6.QtCore import Qt
 
 #All Entity Units List
@@ -93,6 +93,11 @@ SwapButton.setIconSize(SwapButton.size() * 0.7)
 
 #Code for Input Text Boxes
 InputTextBox = QLineEdit(MainWindow)
+#Create a validator that allows any decimal number
+validator = QDoubleValidator()
+validator.setNotation(QDoubleValidator.Notation.StandardNotation)
+#Restrict the input text box to only accept what the validator allows
+InputTextBox.setValidator(validator)
 InputTextBox.setFont(QFont("Calibri", 12))
 InputTextBox.setStyleSheet("background-color: white; color: black; border-radius: 5px; border-style: Outset; border-color: Black; border-width: 1px")
 InputTextBox.setFixedSize(278, 45)
