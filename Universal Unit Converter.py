@@ -1,4 +1,5 @@
 #All imports
+import converter_engine
 import sys
 from PyQt6 import QtWidgets
 from PyQt6.QtWidgets import QApplication,QWidget,QPushButton, QComboBox, QLineEdit
@@ -30,14 +31,6 @@ for x in DistanceUnits:
     InputFL = (StrFL + str(IntFL))
     InputSL = (StrSL + str(IntSL))
     InputTL = (StrTL + str(IntTL))
-
-#Conversion Dictionary for backend math
-ConversionFactors = {
-    'Distance': {'Millimeter': 0.001, 'Centimeter': 0.01, 'Meter': 1.0, 'Kilometer': 1000.0, 'Feet': 0.3048, 'Inch': 0.0254, 'Yard': 0.9144, 'Mile': 1609.34},
-    'Weight': {'Gram': 1.0, 'Milligram': 0.001, 'Kilogram': 1000.0, 'Ton': 1000000.0, 'Pound': 453.592},
-    'Volume': {'Ounce': 1.0, 'Cup': 8.0, 'Pint': 16.0, 'Quart': 32.0, 'Gallon': 128.0},
-    'Time': {'Seconds': 1.0, 'Minutes': 60.0, 'Hour': 3600.0, 'Day': 86400.0, 'Month': 2592000.0, 'Year': 31536000.0}
-}
 
 #Code to launch Main Window
 app = QApplication(sys.argv)
@@ -159,41 +152,27 @@ def DropDownListChanging(text):
 
 def perform_conversion():
     try:
+        #Gather values from your UI components
         input_val = float(InputTextBox.text())
         category = EntityDropDownList.currentText()
         unit_from = Unit1DropDownList.currentText()
         unit_to = Unit2DropDownList.currentText()
 
-        #Check if it's temperature separate from the other units
+        #Delegate the math to your imported engine
         if category == 'Temperature':
-            final_value = convert_temperature(input_val, unit_from, unit_to)
+            final_value = converter_engine.calculate_temperature(input_val, unit_from, unit_to)
         else:
-            rate_from = ConversionFactors[category][unit_from]
-            rate_to = ConversionFactors[category][unit_to]
-            base_value = input_val * rate_from
-            final_value = base_value / rate_to
+            final_value = converter_engine.calculate_standard(
+                input_val, category, unit_from, unit_to, converter_engine.ConversionFactors
+            )
 
+        #Update the UI with the result
         OutputTextBox.setText(f"{final_value:.4f}")
         
     except ValueError:
         OutputTextBox.setText("Error: Enter a number")
-
-def convert_temperature(val, unit_from, unit_to):
-    #Convert everything to Celsius first
-    if unit_from == 'Celsius':
-        celsius = val
-    elif unit_from == 'Fahrenheit':
-        celsius = (val - 32) * 5 / 9
-    elif unit_from == 'Kelvin':
-        celsius = val - 273.15
-        
-    #Convert Celsius to the target unit
-    if unit_to == 'Celsius':
-        return celsius
-    elif unit_to == 'Fahrenheit':
-        return (celsius * 9 / 5) + 32
-    elif unit_to == 'Kelvin':
-        return celsius + 273.15    
+    except KeyError:
+        OutputTextBox.setText("Error: Selection Mismatch")
 
 def swap_dropdowns():
     idx1 = Unit1DropDownList.currentIndex()
