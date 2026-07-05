@@ -13,7 +13,7 @@ This project focuses on building a **modular, production-style desktop applicati
 ### 📥 Standalone Distribution
 
 No Python installation required. Download the compiled, production-ready binary to run natively on Windows:
-[📥 Download Standalone Windows App (.exe)](https://github.com/AdvaitPawar/Universal-Unit-Converter/releases/download/v1.0.0/UniversalUnitConverter.exe)
+[📥 Download Standalone Windows App (.exe)](https://github.com/AdvaitPawar/Universal-Unit-Converter/releases/download/v1.0.0/UniversalUnitConverter.zip)
 
 ---
 
