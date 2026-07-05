@@ -12,23 +12,24 @@ from PyQt6.QtCore import QSize, Qt
 # ==========================================
 # 2. DATA & CONFIGURATIONS
 # ==========================================
-# All Entity Units Lists
-EntityUnits = ['', 'Distance', 'Weight', 'Volume', 'Time', 'Temperature']
+# All Entity Units Lists (Updated)
+EntityUnits = ['', 'Distance', 'Weight', 'Volume', 'Time', 'Temperature', 'Currency']
 DistanceUnits = ['', 'Millimeter', 'Centimeter', 'Meter', 'Kilometer', 'Feet', 'Inch', 'Yard', 'Mile']
 WeightUnits = ['', 'Kilogram', 'Gram', 'Milligram', 'Ton', 'Pound']
 VolumeUnits = ['', 'Gallon', 'Quart', 'Pint', 'Cup', 'Ounce']
 TimeUnits = ['', 'Seconds', 'Minutes', 'Hour', 'Day', 'Month', 'Year']
 TemperatureUnits = ['', 'Kelvin', 'Fahrenheit', 'Celsius']
+CurrencyUnits = ['', 'USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD', 'INR', 'CNY', 'MXN']
 
-# Dictionary map for quick dropdown population
+# Dictionary map for quick dropdown population (Updated)
 UNIT_MAP = {
     'Distance': DistanceUnits,
     'Weight': WeightUnits,
     'Volume': VolumeUnits,
     'Time': TimeUnits,
-    'Temperature': TemperatureUnits
+    'Temperature': TemperatureUnits,
+    'Currency': CurrencyUnits
 }
-
 # History tracker
 conversion_history = []
 
@@ -273,6 +274,13 @@ def perform_conversion():
 
         if category == 'Temperature':
             final_value = converter_engine.calculate_temperature(input_val, unit_from, unit_to)
+        elif category == 'Currency':
+            final_value = converter_engine.calculate_currency(input_val, unit_from, unit_to)
+            
+            # Catch network errors safely if internet is down
+            if final_value == "NETWORK_ERROR":
+                OutputTextBox.setText("Error: No Connection")
+                return
         else:
             final_value = converter_engine.calculate_standard(
                 input_val, category, unit_from, unit_to, converter_engine.ConversionFactors

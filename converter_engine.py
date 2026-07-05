@@ -1,3 +1,5 @@
+import requests
+
 #Conversion Dictionary for backend math
 ConversionFactors = {
     'Distance': {'Millimeter': 0.001, 'Centimeter': 0.01, 'Meter': 1.0, 'Kilometer': 1000.0, 'Feet': 0.3048, 'Inch': 0.0254, 'Yard': 0.9144, 'Mile': 1609.34},
@@ -28,3 +30,33 @@ def calculate_temperature(input_val, unit_from, unit_to):
         return (celsius * 9 / 5) + 32
     elif unit_to == 'Kelvin':
         return celsius + 273.15
+    
+# Cache to save rates so we don't spam the API on every single keystroke
+exchange_rates_cache = {}
+
+def calculate_currency(value, from_currency, to_currency):
+    """Fetches live exchange rates with a built-in caching system."""
+    global exchange_rates_cache
+    
+    if from_currency == to_currency:
+        return value
+
+    # If the rate isn't downloaded yet, get it from the free open API
+    if from_currency not in exchange_rates_cache:
+        try:
+            url = f"https://open.er-api.com/v6/latest/{from_currency}"
+            response = requests.get(url, timeout=3) # Timeout stops app from freezing if offline
+            response.raise_for_status()
+            
+            # Save the rates table to our memory cache
+            exchange_rates_cache[from_currency] = response.json().get('rates', {})
+        except Exception:
+            return "NETWORK_ERROR"
+            
+    # Calculate using our saved data
+    rates = exchange_rates_cache.get(from_currency, {})
+    rate = rates.get(to_currency)
+    
+    if rate is not None:
+        return value * rate
+    return None
