@@ -294,13 +294,14 @@ class TestDefensiveBoundaries(unittest.TestCase):
         that (undesirable but current) behavior so any future refactor is
         forced to consciously change it rather than regress silently.
         """
-        with self.assertRaises(UnboundLocalError):
-            ce.calculate_temperature(100.0, 'Rankine', 'Celsius')
+        with self.assertRaises(ValueError):
+            ce.calculate_temperature(100.0, "Rankine", "Celsius")
 
     def test_temperature_invalid_unit_to_returns_none(self):
         """An invalid unit_to falls through all branches and implicitly returns None."""
-        result = ce.calculate_temperature(100.0, 'Celsius', 'Rankine')
-        self.assertIsNone(result)
+        with self.assertRaises(ValueError):
+            ce.calculate_temperature(100.0, "Celsius", "Rankine")
+    
 
     def test_currency_empty_string_currency_triggers_network_path(self):
         """

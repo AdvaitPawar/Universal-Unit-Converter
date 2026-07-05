@@ -3,9 +3,9 @@
 # ==========================================
 import sys
 import converter_engine
+import os
 from PyQt6 import QtWidgets
-from PyQt6.QtWidgets import (QApplication, QStackedWidget, QWidget, QPushButton, 
-                             QLabel, QComboBox, QLineEdit, QVBoxLayout, QHBoxLayout)
+from PyQt6.QtWidgets import (QApplication, QStackedWidget, QWidget, QPushButton, QLabel, QComboBox, QLineEdit, QVBoxLayout, QHBoxLayout)
 from PyQt6.QtGui import QFont, QDoubleValidator, QIcon
 from PyQt6.QtCore import QSize, Qt
 
@@ -32,6 +32,18 @@ UNIT_MAP = {
 }
 # History tracker
 conversion_history = []
+
+# This gets the directory where Universal Unit Converter.py lives
+base_path = os.path.dirname(os.path.abspath(__file__))
+
+# Go straight into the Icons folder from there
+history_icon_path = os.path.join(base_path, "assets", "Icons", "history.svg")
+converter_icon_path = os.path.join(base_path, "assets", "Icons", "converter.svg")
+swap_icon_path = os.path.join(base_path, "assets", "Icons", "swap.svg")
+add_icon_path = os.path.join(base_path, "assets", "Icons", "add.svg")
+dark_theme_icon_path = os.path.join(base_path, "assets", "Icons", "dark-theme.svg")
+light_theme_icon_path = os.path.join(base_path, "assets", "Icons", "light-theme.svg")
+
 
 # Theme Dictionaries
 DARK_THEME = {
@@ -134,25 +146,25 @@ btn_style_standard = "QPushButton {background-color: white; border-radius: 17px;
 btn_style_history = f"QPushButton {{background-color: {current_theme['history_bg']}; border-radius: 17px;}}QPushButton:hover {{background-color: #D0D5CE;}}"
 
 HistoryButton = QPushButton()
-HistoryButton.setIcon(QIcon("Portfolio Projects/Univeral Unit Converter/Icons/history-svgrepo-com.svg"))
+HistoryButton.setIcon(QIcon(history_icon_path))
 HistoryButton.setIconSize(QSize(30, 30))
 HistoryButton.setStyleSheet(btn_style_history)
 HistoryButton.setFixedSize(70, 45)
 
 ConverterThemeButton = QPushButton()
-ConverterThemeButton.setIcon(QIcon("Portfolio Projects/Univeral Unit Converter/Icons/sun-svgrepo-com.svg"))
+ConverterThemeButton.setIcon(QIcon(light_theme_icon_path))
 ConverterThemeButton.setIconSize(QSize(25, 25))
 ConverterThemeButton.setStyleSheet(btn_style_standard)
 ConverterThemeButton.setFixedSize(35, 35)
 
 SwapButton = QPushButton()
-SwapButton.setIcon(QIcon("Portfolio Projects/Univeral Unit Converter/Icons/swap-vertical.svg"))
+SwapButton.setIcon(QIcon(swap_icon_path))
 SwapButton.setIconSize(QSize(25, 25))
 SwapButton.setStyleSheet(btn_style_standard)
 SwapButton.setFixedSize(35, 35)
 
 AddButton = QPushButton()
-AddButton.setIcon(QIcon("Portfolio Projects/Univeral Unit Converter/Icons/plus-svgrepo-com.svg"))
+AddButton.setIcon(QIcon(add_icon_path))
 AddButton.setIconSize(QSize(30, 30))
 AddButton.setStyleSheet(btn_style_history)
 AddButton.setFixedSize(35, 80)
@@ -214,13 +226,13 @@ HistoryTitle = QLabel("Conversion History")
 HistoryTitle.setStyleSheet("font-weight: bold; font-size: 16px; color: black; border: none;")
 
 ConverterButton = QPushButton()
-ConverterButton.setIcon(QIcon("Portfolio Projects/Univeral Unit Converter/Icons/calculator-svgrepo-com.svg"))
+ConverterButton.setIcon(QIcon(converter_icon_path))
 ConverterButton.setIconSize(QSize(30, 30))
 ConverterButton.setStyleSheet(f"QPushButton {{background-color: {current_theme['history_bg']}; border: none; border-radius: 17px;}}QPushButton:hover {{background-color: #D0D5CE;}}")
 ConverterButton.setFixedSize(70, 45)
 
 HistoryThemeButton = QPushButton()
-HistoryThemeButton.setIcon(QIcon("Portfolio Projects/Univeral Unit Converter/Icons/sun-svgrepo-com.svg"))
+HistoryThemeButton.setIcon(QIcon(light_theme_icon_path))
 HistoryThemeButton.setIconSize(QSize(25, 25))
 HistoryThemeButton.setStyleSheet("QPushButton {background-color: white; border: none; border-radius: 17px;}QPushButton:hover {background-color: #D0D5CE;}")
 HistoryThemeButton.setFixedSize(35, 35)
@@ -301,15 +313,17 @@ def swap_dropdowns():
     Unit1DropDownList.setCurrentIndex(idx2)
     Unit2DropDownList.setCurrentIndex(idx1)
 
-def toggle_theme(theme_button, *args):
+def toggle_theme():
     global current_theme 
     
     if current_theme == DARK_THEME:
         current_theme = LIGHT_THEME
-        theme_button.setIcon(QIcon("Portfolio Projects/Univeral Unit Converter/Icons/moon-svgrepo-com.svg"))
+        HistoryThemeButton.setIcon(QIcon(dark_theme_icon_path))
+        ConverterThemeButton.setIcon(QIcon(dark_theme_icon_path))
     else:
         current_theme = DARK_THEME
-        theme_button.setIcon(QIcon("Portfolio Projects/Univeral Unit Converter/Icons/sun-svgrepo-com.svg"))
+        HistoryThemeButton.setIcon(QIcon(light_theme_icon_path))
+        ConverterThemeButton.setIcon(QIcon(light_theme_icon_path))
         
     MainWindow.setStyleSheet(f"background-color: {current_theme['window_bg']};")
     
@@ -347,12 +361,10 @@ def toggle_page_view():
     current_page = page_stack.currentIndex()
     if current_page == 0:
         page_stack.setCurrentIndex(1)
-        HistoryButton.setIcon(QIcon("Portfolio Projects/Univeral Unit Converter/Icons/history-svgrepo-com.svg"))
         HistoryTitle.setStyleSheet("font-weight: bold; font-size: 16px; color: black; border: none;")
         HistoryLogDisplay.setStyleSheet("font-size: 14px; background-color: #f8f9fa; color: black; padding: 15px; border-radius: 6px;")
     else:
         page_stack.setCurrentIndex(0)
-        HistoryButton.setIcon(QIcon("Portfolio Projects/Univeral Unit Converter/Icons/calculator-svgrepo-com.svg"))
 
 # ==========================================
 # 7. SIGNALS & EXECUTION
@@ -366,8 +378,8 @@ EntityDropDownList.currentIndexChanged.connect(perform_conversion)
 
 # Wiring up buttons
 SwapButton.clicked.connect(swap_dropdowns)
-HistoryThemeButton.clicked.connect(lambda: toggle_theme(HistoryThemeButton))
-ConverterThemeButton.clicked.connect(lambda: toggle_theme(ConverterThemeButton))
+HistoryThemeButton.clicked.connect(lambda: toggle_theme())
+ConverterThemeButton.clicked.connect(lambda: toggle_theme())
 AddButton.clicked.connect(save_to_history)
 HistoryButton.clicked.connect(toggle_page_view)
 ConverterButton.clicked.connect(toggle_page_view)
