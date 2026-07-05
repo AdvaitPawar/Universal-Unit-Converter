@@ -291,7 +291,7 @@ def perform_conversion():
         else:
             OutputTextBox.setText("")        
     except ValueError:
-        OutputTextBox.setText("Error: Enter a number")
+        OutputTextBox.setText("Error: Selection Mismatch")
     except KeyError:
         OutputTextBox.setText("Error: Selection Mismatch")
 

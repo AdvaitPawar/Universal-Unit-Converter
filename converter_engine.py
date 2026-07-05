@@ -23,21 +23,25 @@ def calculate_temperature(input_val, unit_from, unit_to):
         celsius = (input_val - 32) * 5 / 9
     elif unit_from == 'Kelvin':
         celsius = input_val - 273.15
-        
+    else:
+        raise ValueError(f"Unsupported temperature unit_from: '{unit_from}'")
+
     if unit_to == 'Celsius':
         return celsius
     elif unit_to == 'Fahrenheit':
         return (celsius * 9 / 5) + 32
     elif unit_to == 'Kelvin':
         return celsius + 273.15
-    
+    else:
+        raise ValueError(f"Unsupported temperature unit_to: '{unit_to}'")
+
 # Cache to save rates so we don't spam the API on every single keystroke
 exchange_rates_cache = {}
 
 def calculate_currency(value, from_currency, to_currency):
     """Fetches live exchange rates with a built-in caching system."""
     global exchange_rates_cache
-    
+
     if from_currency == to_currency:
         return value
 
@@ -47,16 +51,16 @@ def calculate_currency(value, from_currency, to_currency):
             url = f"https://open.er-api.com/v6/latest/{from_currency}"
             response = requests.get(url, timeout=3) # Timeout stops app from freezing if offline
             response.raise_for_status()
-            
+
             # Save the rates table to our memory cache
             exchange_rates_cache[from_currency] = response.json().get('rates', {})
         except Exception:
             return "NETWORK_ERROR"
-            
+
     # Calculate using our saved data
     rates = exchange_rates_cache.get(from_currency, {})
     rate = rates.get(to_currency)
-    
+
     if rate is not None:
         return value * rate
     return None

@@ -22,3 +22,29 @@ This project demonstrates strong foundational software engineering principles, s
 - **GUI Framework:** PyQt6 (Layouts, Slots/Signals, View Switching)
 - **Networking:** HTTP Client Requests, REST APIs, JSON Parsing
 - **Systems Architecture:** Caching strategies, Defensive validation, Exception handling
+
+---
+
+## 🧪 Automated Testing
+
+This project includes a comprehensive automated test suite built with Python's native `unittest` framework. The suite consists of **19 robust test cases** designed to validate edge cases, mathematical precision, and defensive error boundaries.
+
+### What is Covered:
+
+- **Currency Network & Cache:** Validates cold/warm caching logic, identity short-circuits (e.g., USD to USD), API timeout handles, and HTTP network error grace states.
+- **Defensive Boundaries:** Ensures incorrect categories, mismatched units, empty strings, and `None` inputs fail safely and predictably.
+- **Conversion Accuracy:** Verifies multi-directional linear unit conversions and complex non-linear temperature round-trips ($A \rightarrow B \rightarrow A$) within floating-point precision.
+
+### How to Run the Tests
+
+If you are using **VS Code**, the easiest way to execute the tests is to open `test_converter.py` and click the **Run/Play** button in the top right corner of the editor.
+
+Alternatively, you can execute them directly via your terminal using the project's virtual environment:
+
+```powershell
+# Navigate to the project directory
+cd "Portfolio Projects\Univeral Unit Converter"
+
+# Run the test suite via the local virtual environment
+.venv\Scripts\python.exe -m unittest test_converter.py
+```
