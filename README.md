@@ -1,50 +1,49 @@
 # Universal Unit Converter & Live Financial Tracker
 
-A high-performance desktop application built with **Python 3** and **PyQt6** that handles standard scientific metrics, advanced temperature formulas, and live global currency exchange rates.
+A high-performance desktop application built with **Python 3** and **PyQt6** that provides real-time unit conversion across scientific measurements, advanced temperature transformations, and live global currency exchange rates.
 
-This project demonstrates strong foundational software engineering principles, specifically focusing on the separation of concerns, defensive network programming, and asynchronous-style UI behaviors.
+This project focuses on building a **modular, production-style desktop application**, emphasizing clean architecture, defensive programming, and real-world API integration.
 
 ---
 
 ## 🚀 Key Engineering Highlights
 
-- **In-Memory Network Caching Backend:** Engineered a client-side caching mechanism for the currency network layer. By storing retrieved REST API rates in memory, the application minimizes redundant network overhead, optimizes performance, and prevents UI-blocking freezes during rapid user keystrokes.
-- **Live API Integration & Defensive Programming:** Integrated the Open Exchange Rates REST API via the `requests` library. Implemented rigorous error handling, explicit timeouts, and network failure fallback states (`try/except` safeguards) to ensure an uninterrupted user experience even in offline scenarios.
-- **Decoupled Architectural Design (MVC Concept):** Enforced a strict separation of concerns. The front-end presentation layer (`PyQt6`) is entirely independent of the core computational engine, allowing for a modular system where new conversion categories can be scaled seamlessly without refactoring UI files.
-- **Dynamic & Responsive Presentation:** Leveraged layout managers, automated spacing constraints, and stacked widget components to ensure the UI scales fluids across varying desktop resolutions.
-- **Automated Regression Testing:** Authored an automated unit testing suite targeting core mathematical boundaries to guarantee structural accuracy and eliminate computational regressions.
+- **In-Memory API Caching System:** Implemented a lightweight caching layer for currency exchange data to reduce redundant API calls, improve responsiveness, and prevent unnecessary network overhead during repeated conversions.
+
+- **Live API Integration with Fault Tolerance:** Integrated a REST-based currency exchange API using `requests`, with timeout handling, exception management, and fallback behavior to ensure the application remains stable even during network failures.
+
+- **Modular Architecture (Separation of Concerns):** Designed a clear separation between UI (`PyQt6`) and business logic (conversion engine), allowing the system to scale easily with additional unit categories without modifying the interface layer.
+
+- **Responsive Desktop UI Design:** Built using PyQt6 layout managers and stacked widgets to ensure a smooth and adaptive interface across different screen sizes and resolutions.
+
+- **Test-Driven Reliability:** Developed a comprehensive `unittest` suite with 19+ test cases covering mathematical accuracy, edge cases, invalid inputs, and network-related failure conditions.
 
 ---
 
-## 🛠️ Tech Stack & Concepts Demonstrated
+## 🛠️ Tech Stack
 
-- **Language:** Python 3
-- **GUI Framework:** PyQt6 (Layouts, Slots/Signals, View Switching)
-- **Networking:** HTTP Client Requests, REST APIs, JSON Parsing
-- **Systems Architecture:** Caching strategies, Defensive validation, Exception handling
+- **Language:** Python 3  
+- **GUI Framework:** PyQt6 (Signals, Slots, Layouts, Stacked Views)  
+- **Networking:** REST APIs, HTTP Requests, JSON parsing  
+- **Architecture:** Modular design, caching layer, defensive programming  
+- **Testing:** Python `unittest` framework  
 
 ---
 
-## 🧪 Automated Testing
+## 🧪 Testing
 
-This project includes a comprehensive automated test suite built with Python's native `unittest` framework. The suite consists of **19 robust test cases** designed to validate edge cases, mathematical precision, and defensive error boundaries.
+The project includes an automated test suite designed to validate both correctness and robustness.
 
-### What is Covered:
+### Covered Areas:
+- Currency conversion caching behavior (cold vs warm cache)
+- Identity conversions (e.g., USD → USD)
+- Invalid unit handling and defensive error states
+- Temperature conversion accuracy and round-trip stability
+- API failure and timeout handling
 
-- **Currency Network & Cache:** Validates cold/warm caching logic, identity short-circuits (e.g., USD to USD), API timeout handles, and HTTP network error grace states.
-- **Defensive Boundaries:** Ensures incorrect categories, mismatched units, empty strings, and `None` inputs fail safely and predictably.
-- **Conversion Accuracy:** Verifies multi-directional linear unit conversions and complex non-linear temperature round-trips ($A \rightarrow B \rightarrow A$) within floating-point precision.
+### Run Tests
 
-### How to Run the Tests
+From the project root:
 
-If you are using **VS Code**, the easiest way to execute the tests is to open `test_converter.py` and click the **Run/Play** button in the top right corner of the editor.
-
-Alternatively, you can execute them directly via your terminal using the project's virtual environment:
-
-```powershell
-# Navigate to the project directory
-cd "Portfolio Projects\Univeral Unit Converter"
-
-# Run the test suite via the local virtual environment
-.venv\Scripts\python.exe -m unittest test_converter.py
-```
+```bash
+python -m unittest discover tests
